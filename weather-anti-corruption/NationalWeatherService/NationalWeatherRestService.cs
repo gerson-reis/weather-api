@@ -5,7 +5,9 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Web;
 using weather_anti_corruption.Geocoding.ResultModels;
+using weather_anti_corruption.Geocoding.ResultModels.Properties;
 using weather_anti_corruption.NationalWeatherService.ResultModels;
+using weather_anti_corruption.NationalWeatherService.ResultModels.Forecast;
 
 namespace weather_anti_corruption.Geocoding
 {
@@ -18,15 +20,21 @@ namespace weather_anti_corruption.Geocoding
             _httpClient = httpClient;
         }
 
-        public async Task<CoordinatesModel>? Get(string latitude, string longitude)
+        public async Task<IList<Period>>? Get(string latitude, string longitude)
         {
             try
             {
                 var properties = await GetPropertiesFromGeocode(latitude, longitude);
 
+                //TODO: Geolocation not found
                 _ = properties ?? throw new ArgumentNullException(nameof(properties));
 
+                var forecast = await GetForecastByGridPoints(properties.GridId, properties.GridX, properties.GridY);
 
+                //TODO: Exception forecas not found
+                _ = forecast ?? throw new ArgumentNullException(nameof(forecast));
+
+                return forecast.Properties.Periods;
 
             }
             catch (Exception e)
@@ -37,18 +45,17 @@ namespace weather_anti_corruption.Geocoding
 
         }
 
-        private async Task<Properties>? GetForecastByGridPoints(string gridId, string gridX, string gridY)
+        private async Task<ForecastResult>? GetForecastByGridPoints(string gridId, int gridX, int gridY)
         {
-            var parameters = HttpUtility.UrlEncode($"{longitude},{latitude}", Encoding.ASCII);
-            var response = await _httpClient.GetAsync($"points/{parameters}");
+            var response = await _httpClient.GetAsync($"gridpoints/{gridId}/{gridX},{gridY}/forecast");
 
             if (response.StatusCode == HttpStatusCode.OK)
             {
                 var jsonString = response.Content.ReadAsStringAsync();
                 jsonString.Wait();
-                var requestResult = JsonConvert.DeserializeObject<GetGridResult>(jsonString.Result);
+                var requestResult = JsonConvert.DeserializeObject<ForecastResult>(jsonString.Result);
 
-                return requestResult.Properties;
+                return requestResult;
             }
             return null;
         }

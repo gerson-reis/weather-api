@@ -1,4 +1,5 @@
 using weather_anti_corruption.Geocoding;
+using weather_anti_corruption.NationalWeatherService.ResultModels.Forecast;
 using weather_api;
 using weather_core.IServices;
 using weather_core.Services;
@@ -20,20 +21,20 @@ builder.Services.AddHttpClient<IGeocodingRestService, GeocodingRestService>(clie
 builder.Services.AddHttpClient<INationalWeatherRestService, NationalWeatherRestService>(client =>
 {
     client.BaseAddress = new Uri(builder.Configuration["WeatherBaseUrl"]);
-    client.DefaultRequestHeaders.Add("User-Agent", "(dsaatherapp.com, contact@msdweatherapp.com)");
+    client.DefaultRequestHeaders.Add("User-Agent", "(myweatherapp.com, contact@myweatherapp.com)");
 })
 .SetHandlerLifetime(TimeSpan.FromMinutes(5))
 .AddPolicyHandler(HttpRetryPolices.GetRetryPolicy());
 
 var app = builder.Build();
 
-app.MapGet("/GetRoles", Task (IGeocodingRestService service, INationalWeatherRestService serviceWeather) =>
+app.MapGet("/get-forecast-from", async Task<IList<Period>> (string address, IGeocodingRestService service, INationalWeatherRestService serviceWeather) =>
 {
-    var result = service.Get("4600 Silver Hill Rd, Washington, DC 20233").WaitAsync(TimeSpan.FromSeconds(5)).Result;
+    var result = await service.Get(address).WaitAsync(TimeSpan.FromSeconds(5));
 
-    var forecast = serviceWeather.Get(result.X, result.Y).Result;
+    var forecast = await serviceWeather.Get(result.X, result.Y).WaitAsync(TimeSpan.FromSeconds(5));
 
-    return Task.FromResult(result);
+    return forecast;
 });
 
 app.Run();
