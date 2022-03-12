@@ -3,3 +3,12 @@
 ################################################################################
 
 /weather-anti-corruption/bin/Debug/net6.0
+/weather-anti-corruption/obj
+/weather-api/bin/Debug/net6.0
+/weather-api/obj
+/weather-IoC/bin/Debug/net6.0
+/weather-IoC/obj
+/weather-service/bin/Debug/net6.0
+/weather-service/obj
+/weather-api/.vs/weather-api/v17
+/.vs/weather/v17
