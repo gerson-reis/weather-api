@@ -1,11 +1,14 @@
 using weather_anti_corruption.Geocoding;
 using weather_anti_corruption.NationalWeatherService.ResultModels.Forecast;
 using weather_api;
-using weather_core.IServices;
-using weather_core.Services;
+using weather_application.IServices;
+using weather_application.Services;
+using weather_infrastructure.CacheServices;
 
 var builder = WebApplication.CreateBuilder(args);
+
 builder.Services.AddScoped<IGetWeatherStatusService, GetWeatherStatusService>();
+builder.Services.AddScoped<ICacheService, CacheService>();
 
 builder.Services.AddHttpClient<IGeocodingRestService, GeocodingRestService>(client =>
 {
@@ -18,6 +21,8 @@ builder.Services.AddHttpClient<IGeocodingRestService, GeocodingRestService>(clie
 .SetHandlerLifetime(TimeSpan.FromMinutes(5))
 .AddPolicyHandler(HttpRetryPolices.GetRetryPolicy());
 
+builder.Services.AddMemoryCache();
+
 builder.Services.AddHttpClient<INationalWeatherRestService, NationalWeatherRestService>(client =>
 {
     client.BaseAddress = new Uri(builder.Configuration["WeatherBaseUrl"]);
@@ -28,11 +33,9 @@ builder.Services.AddHttpClient<INationalWeatherRestService, NationalWeatherRestS
 
 var app = builder.Build();
 
-app.MapGet("/get-forecast-from", async Task<IList<Period>> (string address, IGeocodingRestService service, INationalWeatherRestService serviceWeather) =>
+app.MapGet("/get-forecast-from", async Task<IList<Period>> (string address, IGetWeatherStatusService service) =>
 {
-    var result = await service.Get(address).WaitAsync(TimeSpan.FromSeconds(5));
-
-    var forecast = await serviceWeather.Get(result.X, result.Y).WaitAsync(TimeSpan.FromSeconds(5));
+    var forecast = await service.GetForecastByAddress(address);
 
     return forecast;
 });

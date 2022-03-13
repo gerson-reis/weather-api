@@ -22,27 +22,17 @@ namespace weather_anti_corruption.Geocoding
 
         public async Task<IList<Period>>? Get(string latitude, string longitude)
         {
-            try
-            {
-                var properties = await GetPropertiesFromGeocode(latitude, longitude);
+            var properties = await GetPropertiesFromGeocode(latitude, longitude);
 
-                //TODO: Geolocation not found
-                _ = properties ?? throw new ArgumentNullException(nameof(properties));
+            //TODO: Geolocation not found
+            _ = properties ?? throw new ArgumentNullException(nameof(properties));
 
-                var forecast = await GetForecastByGridPoints(properties.GridId, properties.GridX, properties.GridY);
+            var forecast = await GetForecastByGridPoints(properties.GridId, properties.GridX, properties.GridY);
 
-                //TODO: Exception forecas not found
-                _ = forecast ?? throw new ArgumentNullException(nameof(forecast));
+            //TODO: Exception forecas not found
+            _ = forecast ?? throw new ArgumentNullException(nameof(forecast));
 
-                return forecast.Properties.Periods;
-
-            }
-            catch (Exception e)
-            {
-
-                throw;
-            }
-
+            return forecast.Properties.Periods;
         }
 
         private async Task<ForecastResult>? GetForecastByGridPoints(string gridId, int gridX, int gridY)
@@ -63,8 +53,7 @@ namespace weather_anti_corruption.Geocoding
 
         private async Task<Properties>? GetPropertiesFromGeocode(string latitude, string longitude)
         {
-            var parameters = HttpUtility.UrlEncode($"{longitude},{latitude}", Encoding.ASCII);
-            var response = await _httpClient.GetAsync($"points/{parameters}");
+            var response = await _httpClient.GetAsync($"points/{latitude},{longitude}");
 
             if (response.StatusCode == HttpStatusCode.OK)
             {

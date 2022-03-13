@@ -1,8 +1,12 @@
-﻿namespace weather_anti_corruption.Geocoding.ResultModels
+﻿using Newtonsoft.Json;
+
+namespace weather_anti_corruption.Geocoding.ResultModels
 {
     public class CoordinatesModel
     {
-        public string X { get; set; }
-        public string Y { get; set; }
+        [JsonProperty("y")]
+        public string Latitude { get; set; }
+        [JsonProperty("x")]
+        public string Longitude { get; set; }
     }
 }

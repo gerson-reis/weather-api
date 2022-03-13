@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using weather_anti_corruption.NationalWeatherService.ResultModels.Forecast;
 
-namespace weather_core.IServices
+namespace weather_application.IServices
 {
     public interface IGetWeatherStatusService
     {
+        Task<IList<Period>>? GetForecastByAddress(string address);
     }
 }
