@@ -17,4 +17,8 @@
     <PackageReference Include="System.Runtime.Extensions" Version="4.3.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\weather-infrastructure\weather-infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>

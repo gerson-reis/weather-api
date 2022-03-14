@@ -59,17 +59,19 @@ static void ConfigureExceptionHandler(WebApplication app)
         {
             context.Response.ContentType = Text.Plain;
 
-            var exceptionHandlerPathFeature =
-                context.Features.Get<IExceptionHandlerPathFeature>();
+            var exceptionHandlerPathFeature = context.Features.Get<IExceptionHandlerPathFeature>();
 
-            if (exceptionHandlerPathFeature?.Error is ExceptionBase)
+            if (exceptionHandlerPathFeature?.Error is ClientExceptionBase)
             {
-                var exception = exceptionHandlerPathFeature.Error as ExceptionBase;
-
+                var exception = exceptionHandlerPathFeature.Error as ClientExceptionBase;
                 await context.Response.WriteAsync(exception.Message);
                 context.Response.StatusCode = exception.HttpStatusCode;
-
                 logger.LogInformation(exception.Message);
+            }
+            else if (exceptionHandlerPathFeature?.Error is InternalExceptionBase)
+            {
+                var exception = exceptionHandlerPathFeature.Error as InternalExceptionBase;
+                logger.LogCritical(exception.EventId, exception, $"Endpoint: {exceptionHandlerPathFeature.Path}");
             }
             else
             {

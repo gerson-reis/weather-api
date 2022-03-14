@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.WebUtilities;
 using Newtonsoft.Json;
 using System.Net;
 using weather_anti_corruption.Geocoding.ResultModels;
+using weather_infrastructure.Exceptions;
 
 namespace weather_anti_corruption.Geocoding
 {
@@ -39,6 +40,8 @@ namespace weather_anti_corruption.Geocoding
         public async Task<CoordinatesModel>? Get(string address)
         {
             var response = await _httpClient.GetAsync(QueryHelpers.AddQueryString(ServiceAddress, "address", address));
+
+            _ = response ?? throw new InvalidAddressException();
 
             if (response.StatusCode == HttpStatusCode.OK)
             {

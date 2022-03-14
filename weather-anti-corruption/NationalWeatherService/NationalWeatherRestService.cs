@@ -1,13 +1,9 @@
-﻿using Microsoft.AspNetCore.WebUtilities;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System.Net;
-using System.Text;
-using System.Text.Encodings.Web;
-using System.Web;
-using weather_anti_corruption.Geocoding.ResultModels;
 using weather_anti_corruption.Geocoding.ResultModels.Properties;
 using weather_anti_corruption.NationalWeatherService.ResultModels;
 using weather_anti_corruption.NationalWeatherService.ResultModels.Forecast;
+using weather_infrastructure.Exceptions;
 
 namespace weather_anti_corruption.Geocoding
 {
@@ -24,13 +20,11 @@ namespace weather_anti_corruption.Geocoding
         {
             var properties = await GetPropertiesFromGeocode(latitude, longitude);
 
-            //TODO: Geolocation not found
-            _ = properties ?? throw new ArgumentNullException(nameof(properties));
+            _ = properties ?? throw new PropertiesNotFoundException();
 
             var forecast = await GetForecastByGridPoints(properties.GridId, properties.GridX, properties.GridY);
 
-            //TODO: Exception forecas not found
-            _ = forecast ?? throw new ArgumentNullException(nameof(forecast));
+            _ = forecast ?? throw new PeriodNotFoundException();
 
             return forecast.Properties.Periods;
         }
@@ -49,7 +43,6 @@ namespace weather_anti_corruption.Geocoding
             }
             return null;
         }
-
 
         private async Task<Properties>? GetPropertiesFromGeocode(string latitude, string longitude)
         {
