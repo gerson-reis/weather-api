@@ -72,6 +72,7 @@ static void ConfigureExceptionHandler(WebApplication app)
             {
                 var exception = exceptionHandlerPathFeature.Error as InternalExceptionBase;
                 logger.LogCritical(exception.EventId, exception, $"Endpoint: {exceptionHandlerPathFeature.Path}");
+                context.Response.StatusCode = StatusCodes.Status500InternalServerError;
             }
             else
             {
