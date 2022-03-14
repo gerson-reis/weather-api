@@ -1,39 +1,25 @@
-using weather_anti_corruption.Geocoding;
+using Microsoft.AspNetCore.Diagnostics;
 using weather_anti_corruption.NationalWeatherService.ResultModels.Forecast;
-using weather_api;
 using weather_application.IServices;
-using weather_application.Services;
-using weather_infrastructure.CacheServices;
+using weather_infrastructure.Exceptions;
+using weather_IoC;
+using static System.Net.Mime.MediaTypeNames;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddScoped<IGetWeatherStatusService, GetWeatherStatusService>();
-builder.Services.AddScoped<ICacheService, CacheService>();
+DependencyInjection.Configure(builder.Services, builder.Configuration);
 
-builder.Services.AddHttpClient<IGeocodingRestService, GeocodingRestService>(client =>
-{
-    client.BaseAddress = new Uri(builder.Configuration["GeocodingBaseUrl"]);
-    client.DefaultRequestHeaders.Add("benchmark", "2020");
-    client.DefaultRequestHeaders.Add("searchtype", "onelineaddress");
-    client.DefaultRequestHeaders.Add("returntype", "locations");
-    client.DefaultRequestHeaders.Add("format", "json");
-})
-.SetHandlerLifetime(TimeSpan.FromMinutes(5))
-.AddPolicyHandler(HttpRetryPolices.GetRetryPolicy());
-
-builder.Services.AddMemoryCache();
-
-builder.Services.AddHttpClient<INationalWeatherRestService, NationalWeatherRestService>(client =>
-{
-    client.BaseAddress = new Uri(builder.Configuration["WeatherBaseUrl"]);
-    client.DefaultRequestHeaders.Add("User-Agent", "(myweatherapp.com, contact@myweatherapp.com)");
-})
-.SetHandlerLifetime(TimeSpan.FromMinutes(5))
-.AddPolicyHandler(HttpRetryPolices.GetRetryPolicy());
+AddProjectStructureBase(builder);
 
 var app = builder.Build();
 
-app.MapGet("/get-forecast-from", async Task<IList<Period>> (string address, IGetWeatherStatusService service) =>
+ConfigureLog(builder);
+ConfigureSwagger(app);
+ConfigureExceptionHandler(app);
+
+app.MapGet("/api/check", () => StatusCodes.Status200OK);
+
+app.MapGet("/api/get-forecast-from", async Task<IList<Period>> (string address, IGetWeatherStatusService service) =>
 {
     var forecast = await service.GetForecastByAddress(address);
 
@@ -41,3 +27,54 @@ app.MapGet("/get-forecast-from", async Task<IList<Period>> (string address, IGet
 });
 
 app.Run();
+
+static void AddProjectStructureBase(WebApplicationBuilder builder)
+{
+    builder.Services.AddEndpointsApiExplorer();
+    builder.Services.AddSwaggerGen();
+    builder.Services.AddMemoryCache();
+}
+
+static void ConfigureLog(WebApplicationBuilder builder)
+{
+    builder.Host.ConfigureLogging(logging =>
+    {
+        logging.AddConsole();
+    });
+}
+
+static void ConfigureSwagger(WebApplication app)
+{
+    app.UseSwaggerUI();
+    app.UseSwagger(x => x.SerializeAsV2 = true);
+}
+
+static void ConfigureExceptionHandler(WebApplication app)
+{
+    app.UseExceptionHandler(exceptionHandlerApp =>
+    {
+        var logger = app.Services.GetRequiredService(typeof(ILogger<Program>)) as ILogger<Program>;
+
+        exceptionHandlerApp.Run(async context =>
+        {
+            context.Response.ContentType = Text.Plain;
+
+            var exceptionHandlerPathFeature =
+                context.Features.Get<IExceptionHandlerPathFeature>();
+
+            if (exceptionHandlerPathFeature?.Error is ExceptionBase)
+            {
+                var exception = exceptionHandlerPathFeature.Error as ExceptionBase;
+
+                await context.Response.WriteAsync(exception.Message);
+                context.Response.StatusCode = exception.HttpStatusCode;
+
+                logger.LogInformation(exception.Message);
+            }
+            else
+            {
+                logger.LogCritical(exceptionHandlerPathFeature.Error.Message);
+            }
+        });
+    });
+}

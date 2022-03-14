@@ -36,7 +36,6 @@ namespace weather_application.Services
                 await cacheService.Set<IList<Period>>(address, periods, DateTime.Now.AddMinutes(10));
 
             return periods;
-
         }
     }
 }

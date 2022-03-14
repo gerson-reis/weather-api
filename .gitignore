@@ -12,3 +12,9 @@
 /weather-service/obj
 /weather-api/.vs/weather-api/v17
 /.vs/weather/v17
+/weather-integration-tests/obj
+/weather.Integrations.Tests/bin/Debug/net6.0
+/weather.Integrations.Tests/obj
+/weather-api/.vs/weather-api/DesignTimeBuild
+/weather.api.tests/bin/Debug/net6.0
+/weather.api.tests/obj

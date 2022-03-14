@@ -5,17 +5,19 @@ VisualStudioVersion = 17.1.31903.286
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "weather-api", "weather-api\weather-api.csproj", "{5EE20B5D-F372-414E-8055-450CE1CC5ED3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "weather-anti-corruption", "weather-anti-corruption\weather-anti-corruption.csproj", "{326730E5-8301-4EA8-86E3-59A4033BA53A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "weather-anti-corruption", "weather-anti-corruption\weather-anti-corruption.csproj", "{326730E5-8301-4EA8-86E3-59A4033BA53A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "weather-IoC", "weather-IoC\weather-IoC.csproj", "{36B853C8-6BF3-4AEC-90A8-B743A5362244}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "weather-IoC", "weather-IoC\weather-IoC.csproj", "{36B853C8-6BF3-4AEC-90A8-B743A5362244}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "weather-application", "weather-service\weather-application.csproj", "{B01017C6-3F24-4C67-AFB6-8E4514A8127C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "weather-application", "weather-service\weather-application.csproj", "{B01017C6-3F24-4C67-AFB6-8E4514A8127C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{DDE87BAD-25C3-412F-A827-3813A2CCC4F1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "weather-unit-tests", "..\weather-unit-tests\weather-unit-tests.csproj", "{FC4E9DE0-C41B-4578-8B1A-DF951AD425E0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "weather-unit-tests", "..\weather-unit-tests\weather-unit-tests.csproj", "{FC4E9DE0-C41B-4578-8B1A-DF951AD425E0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "weather-infrastructure", "..\weather-infrastructure\weather-infrastructure.csproj", "{AE9AFB90-8555-4D01-8624-993BA249C21E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "weather-infrastructure", "..\weather-infrastructure\weather-infrastructure.csproj", "{AE9AFB90-8555-4D01-8624-993BA249C21E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "weather.api.tests", "weather-api-integration-tests\weather.api.tests.csproj", "{2FC4CB38-15CB-43D0-93CC-7E510F82F361}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,12 +49,17 @@ Global
 		{AE9AFB90-8555-4D01-8624-993BA249C21E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AE9AFB90-8555-4D01-8624-993BA249C21E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AE9AFB90-8555-4D01-8624-993BA249C21E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2FC4CB38-15CB-43D0-93CC-7E510F82F361}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FC4CB38-15CB-43D0-93CC-7E510F82F361}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2FC4CB38-15CB-43D0-93CC-7E510F82F361}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FC4CB38-15CB-43D0-93CC-7E510F82F361}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{FC4E9DE0-C41B-4578-8B1A-DF951AD425E0} = {DDE87BAD-25C3-412F-A827-3813A2CCC4F1}
+		{2FC4CB38-15CB-43D0-93CC-7E510F82F361} = {DDE87BAD-25C3-412F-A827-3813A2CCC4F1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {706B2133-DBBF-4E2A-98A3-818F5B64DB7C}

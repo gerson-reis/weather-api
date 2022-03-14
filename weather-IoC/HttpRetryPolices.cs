@@ -1,7 +1,7 @@
 ﻿using Polly;
 using Polly.Extensions.Http;
 
-namespace weather_api
+namespace weather_IoC
 {
     public static class HttpRetryPolices
     {

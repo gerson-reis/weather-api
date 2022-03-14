@@ -12,11 +12,11 @@
 	  <PackageReference Include="Polly" Version="7.2.3" />
 	  <PackageReference Include="Polly.Extensions.Http" Version="3.0.0" />
 	  <PackageReference Include="Refit" Version="6.3.2" />
+	  <PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.0" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\weather-infrastructure\weather-infrastructure.csproj" />
-		<ProjectReference Include="..\weather-anti-corruption\weather-anti-corruption.csproj" />
+		<ProjectReference Include="..\weather-IoC\weather-IoC.csproj" />
 		<ProjectReference Include="..\weather-service\weather-application.csproj" />
 	</ItemGroup>
 
