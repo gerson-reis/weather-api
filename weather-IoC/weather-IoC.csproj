@@ -15,7 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\weather-infrastructure\weather-infrastructure.csproj" />
     <ProjectReference Include="..\..\weather-unit-tests\weather-unit-tests.csproj" />
     <ProjectReference Include="..\weather-anti-corruption\weather-anti-corruption.csproj" />
     <ProjectReference Include="..\weather-service\weather-application.csproj" />

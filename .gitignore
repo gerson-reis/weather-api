@@ -18,3 +18,6 @@
 /weather-api/.vs/weather-api/DesignTimeBuild
 /weather.api.tests/bin/Debug/net6.0
 /weather.api.tests/obj
+/weather-infrastructure/bin/Debug/net6.0
+/weather-unit-tests/bin/Debug/net6.0
+/weather-unit-tests/obj

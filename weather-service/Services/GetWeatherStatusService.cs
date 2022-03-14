@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Caching.Memory;
-using weather_anti_corruption.Geocoding;
+﻿using weather_anti_corruption.Geocoding;
 using weather_anti_corruption.NationalWeatherService.ResultModels.Forecast;
 using weather_application.IServices;
 using weather_infrastructure.CacheServices;
