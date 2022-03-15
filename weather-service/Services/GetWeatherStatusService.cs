@@ -2,10 +2,11 @@
 using weather_anti_corruption.NationalWeatherService.ResultModels.Forecast;
 using weather_application.IServices;
 using weather_infrastructure.CacheServices;
+using weather_models;
 
 namespace weather_application.Services
 {
-    public class GetWeatherStatusService : IGetWeatherStatusService
+    public partial class GetWeatherStatusService : IGetWeatherStatusService
     {
         private readonly IGeocodingRestService geocodingRestService;
         private readonly INationalWeatherRestService weatherRestService;
@@ -18,9 +19,9 @@ namespace weather_application.Services
             this.cacheService = cacheService;
         }
 
-        public async Task<IList<Period>>? GetForecastByAddress(string address) 
+        public async Task<IList<ForecastDay>>? GetForecastByAddress(string address)
         {
-            var inCache = await cacheService.Get<IList<Period>>(address);
+            var inCache = await cacheService.Get<IList<ForecastDay>>(address);
 
             if (inCache != null)
                 return inCache;
@@ -31,10 +32,17 @@ namespace weather_application.Services
 
             var periods = await weatherRestService.Get(coordinates.Latitude, coordinates.Longitude);
 
-            if (periods.Any())
-                await cacheService.Set<IList<Period>>(address, periods, DateTime.Now.AddMinutes(10));
+            if (!periods.Any())
+                return null;
 
-            return periods;
+            var result = GetResult(periods);
+
+            await cacheService.Set<IList<ForecastDay>>(address, result, DateTime.Now.AddMinutes(10));
+
+            return result;
         }
+
+        private IList<ForecastDay> GetResult(IList<Period> periods) =>
+                                periods.Select(x => new ForecastDay(x.StartTime, x.EndTime, x.Temperature, x.TemperatureUnit, x.WindSpeed, x.DetailedForecast)).ToList();
     }
 }

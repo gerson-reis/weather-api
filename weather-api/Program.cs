@@ -1,42 +1,30 @@
 using Microsoft.AspNetCore.Diagnostics;
-using weather_anti_corruption.NationalWeatherService.ResultModels.Forecast;
 using weather_application.IServices;
 using weather_infrastructure.Exceptions;
 using weather_IoC;
+using weather_models;
 using static System.Net.Mime.MediaTypeNames;
 
 var builder = WebApplication.CreateBuilder(args);
 
 var MyAllowSpecificOrigins = "corsOrigins";
 
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy(name: MyAllowSpecificOrigins,
-                      builder =>
-                      {
-                          builder.WithOrigins("http://localhost:3000")
-                          .AllowAnyHeader()
-                          .AllowAnyMethod();
-                      });
-});
-
+ConfigureCors(builder, MyAllowSpecificOrigins);
 
 DependencyInjection.Configure(builder.Services, builder.Configuration);
 
 AddProjectStructureBase(builder);
-
 var app = builder.Build();
 
 ConfigureLog(builder);
 ConfigureSwagger(app);
 ConfigureExceptionHandler(app);
 
-
 app.UseCors(MyAllowSpecificOrigins);
 
 app.MapGet("/api/check", () => StatusCodes.Status200OK);
 
-app.MapGet("/api/get-forecast-from", async Task<IList<Period>> (string address, IGetWeatherStatusService service) =>
+app.MapGet("/api/get-forecast-from", async Task<IList<ForecastDay>> (string address, IGetWeatherStatusService service) =>
 {
     var forecast = await service.GetForecastByAddress(address);
 
@@ -96,5 +84,19 @@ static void ConfigureExceptionHandler(WebApplication app)
                 logger.LogCritical(exceptionHandlerPathFeature.Error.Message);
             }
         });
+    });
+}
+
+static void ConfigureCors(WebApplicationBuilder builder, string MyAllowSpecificOrigins)
+{
+    builder.Services.AddCors(options =>
+    {
+        options.AddPolicy(name: MyAllowSpecificOrigins,
+                          builder =>
+                          {
+                              builder.WithOrigins("http://localhost:3000")
+                              .AllowAnyHeader()
+                              .AllowAnyMethod();
+                          });
     });
 }

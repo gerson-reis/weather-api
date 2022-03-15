@@ -21,3 +21,5 @@
 /weather-infrastructure/bin/Debug/net6.0
 /weather-unit-tests/bin/Debug/net6.0
 /weather-unit-tests/obj
+/weather-models/bin/Debug/net6.0
+/weather-models/obj

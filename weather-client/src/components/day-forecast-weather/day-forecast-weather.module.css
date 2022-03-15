@@ -1,9 +1,12 @@
-.test 
+.base 
 {
     float: left;
-    height:500px;
-    width: 500px;
+    width: 100%;
     padding: 50px 20px;
+    margin: 20px 0px;
+    border-radius:10px;
+    border: 1px solid #444;
+    background-color: #ADD8E6
 }
 
 .baseDate

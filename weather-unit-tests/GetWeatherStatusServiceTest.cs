@@ -6,6 +6,7 @@ using weather_anti_corruption.Geocoding.ResultModels;
 using weather_anti_corruption.NationalWeatherService.ResultModels.Forecast;
 using weather_application.Services;
 using weather_infrastructure.CacheServices;
+using weather_models;
 using Xunit;
 
 namespace weather_unit_tests

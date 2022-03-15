@@ -1,9 +1,9 @@
-﻿using weather_anti_corruption.NationalWeatherService.ResultModels.Forecast;
+﻿using weather_models;
 
 namespace weather_application.IServices
 {
     public interface IGetWeatherStatusService
     {
-        Task<IList<Period>>? GetForecastByAddress(string address);
+        Task<IList<ForecastDay>>? GetForecastByAddress(string address);
     }
 }

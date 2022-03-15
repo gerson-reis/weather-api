@@ -4,6 +4,7 @@ using weather_anti_corruption.Geocoding;
 using weather_application.IServices;
 using weather_application.Services;
 using weather_infrastructure.CacheServices;
+using weather_models;
 
 namespace weather_IoC
 {
