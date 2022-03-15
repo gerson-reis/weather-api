@@ -1,24 +1,22 @@
 import logo from './logo.svg';
 import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import DayForecast from './components/day-forecast-weather/day-forecast-weather';
+import ForecasResult from './components/forecast-result/forecast-result';
 
 function App() {
   return (
     <div className="App">
-   <BrowserRouter>
-        <UserStorage>
-          <Header />
+      <BrowserRouter>
           <main className="AppBody">
             <Routes>
-              <Route path="/" element={<DayForecast />} />
+              <Route path="/" element={<ForecasResult/>} />
+              {/* <Route path="/home/" element={<DayForecast/>} /> */}
             </Routes>
           </main>
-          <Footer />
-        </UserStorage>
       </BrowserRouter>
     </div>
   );
 }
+
 
 export default App;

@@ -7,6 +7,20 @@ using static System.Net.Mime.MediaTypeNames;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var MyAllowSpecificOrigins = "corsOrigins";
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+                      builder =>
+                      {
+                          builder.WithOrigins("http://localhost:3000")
+                          .AllowAnyHeader()
+                          .AllowAnyMethod();
+                      });
+});
+
+
 DependencyInjection.Configure(builder.Services, builder.Configuration);
 
 AddProjectStructureBase(builder);
@@ -16,6 +30,9 @@ var app = builder.Build();
 ConfigureLog(builder);
 ConfigureSwagger(app);
 ConfigureExceptionHandler(app);
+
+
+app.UseCors(MyAllowSpecificOrigins);
 
 app.MapGet("/api/check", () => StatusCodes.Status200OK);
 
