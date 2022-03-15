@@ -1,9 +1,9 @@
-﻿using weather_models;
+﻿using weather_application.Dtos;
 
 namespace weather_application.IServices
 {
     public interface IGetWeatherStatusService
     {
-        Task<IList<ForecastDay>>? GetForecastByAddress(string address);
+        Task<IList<ForecastDayDto>>? GetForecastByAddress(string address);
     }
 }

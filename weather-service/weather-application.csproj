@@ -14,7 +14,6 @@
   <ItemGroup>
     <ProjectReference Include="..\weather-anti-corruption\weather-anti-corruption.csproj" />
     <ProjectReference Include="..\weather-infrastructure\weather-infrastructure.csproj" />
-    <ProjectReference Include="..\weather-models\weather-models.csproj" />
   </ItemGroup>
 
 </Project>

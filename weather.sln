@@ -19,8 +19,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "weather-infrastructure", "w
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "weather-unit-tests", "weather-unit-tests\weather-unit-tests.csproj", "{3F5629F7-01FC-423E-A2D0-B417CD82572D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "weather-models", "weather-models\weather-models.csproj", "{621AF3E3-D70B-4FC6-8BCF-C8AD38896942}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,10 +53,6 @@ Global
 		{3F5629F7-01FC-423E-A2D0-B417CD82572D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3F5629F7-01FC-423E-A2D0-B417CD82572D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3F5629F7-01FC-423E-A2D0-B417CD82572D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{621AF3E3-D70B-4FC6-8BCF-C8AD38896942}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{621AF3E3-D70B-4FC6-8BCF-C8AD38896942}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{621AF3E3-D70B-4FC6-8BCF-C8AD38896942}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{621AF3E3-D70B-4FC6-8BCF-C8AD38896942}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
